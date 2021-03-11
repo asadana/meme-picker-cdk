@@ -18,7 +18,7 @@ class MemePickerStack(cdk.Stack):
                               'MemeBucket',
                               bucket_name='meme-picker-bucket',
                               encryption=s3.BucketEncryption.S3_MANAGED,
-                              public_read_access=True,
+                              public_read_access=False,
                               versioned=True,
                               lifecycle_rules=[
                                   s3.LifecycleRule(
