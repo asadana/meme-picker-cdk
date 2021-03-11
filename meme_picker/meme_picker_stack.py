@@ -18,11 +18,13 @@ class MemePickerStack(cdk.Stack):
                               'MemeBucket',
                               bucket_name='meme-picker-bucket',
                               encryption=s3.BucketEncryption.S3_MANAGED,
-                              public_read_access=False,
-                              block_public_access=s3.BlockPublicAccess.BLOCK_ALL,
+                              public_read_access=True,
                               versioned=True,
                               lifecycle_rules=[
-                                  s3.LifecycleRule(expiration=cdk.Duration.days(30))
+                                  s3.LifecycleRule(
+                                      expiration=cdk.Duration.days(30),
+                                      noncurrent_version_expiration=cdk.Duration.days(30)
+                                  )
                               ])
 
         # Defines a Lambda
