@@ -9,5 +9,7 @@ meme-picker = {editable = true, file = "file:///home/asadana/store/workspace/mem
 "aws-cdk.aws-lambda" = "*"
 "aws-cdk.aws-events" = "*"
 "aws-cdk.aws-events-targets" = "*"
+"aws-cdk.aws-s3" = "*"
+"aws-cdk.aws-lambda-python" = "*"
 
 [dev-packages]
