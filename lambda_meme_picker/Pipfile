@@ -6,3 +6,4 @@ name = "pypi"
 [packages]
 "boto3" = "*"
 "requests" = "*"
+pillow = "*"
