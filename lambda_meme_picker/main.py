@@ -1,21 +1,38 @@
 import json
 import os
+import random
 import urllib.request
 
 import boto3
 
 from PIL import Image, UnidentifiedImageError
+from google_images_download import google_images_download
 
 s3 = boto3.resource('s3')
 bucket_name = os.getenv('S3_BUCKET_NAME')
 
 FILE_NAME = '/tmp/meme-of-the-week.jpg'
 
+SEARCH_PARAMS = {
+    "keywords": "\"timecard\" meme",
+    "limit": 50,
+    "format": "jpg",
+    "language": "English",
+    "safe_search": True,
+    "no_download": True
+}
+
 
 def handler(event, context):
     print('request: {}'.format(json.dumps(event)))
 
-    path, _ = urllib.request.urlretrieve('https://i.pinimg.com/originals/4a/32/fb/4a32fbcba40cc06ea6ca0edbd4dbae1c.png')
+    if event and event['meme']:
+        image_url = event['meme']
+    else:
+        image_url = _pick_image()
+    print(f"Picking image: {image_url}")
+
+    path, _ = urllib.request.urlretrieve(image_url)
 
     try:
         with open(path, 'rb') as image_file:
@@ -43,3 +60,15 @@ def handler(event, context):
         },
         'body': 'Hello, CDK! You have hit '
     }
+
+
+def _pick_image() -> str:
+    google_images_instance = google_images_download.googleimagesdownload()
+    paths = google_images_instance.download(SEARCH_PARAMS)
+
+    path_list = list(paths[0].values())[0]
+
+    # pick a random number to pick an image
+    index = random.randint(0, len(path_list))
+
+    return path_list[index]
