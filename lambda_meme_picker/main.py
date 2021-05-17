@@ -19,14 +19,15 @@ SEARCH_PARAMS = {
     "format": "jpg",
     "language": "English",
     "safe_search": True,
-    "no_download": True
+    "no_download": True,
+    "silent_mode": True
 }
 
 
 def handler(event, context):
     print('request: {}'.format(json.dumps(event)))
 
-    if event and event['meme']:
+    if event and 'meme' in event.keys():
         image_url = event['meme']
     else:
         image_url = _pick_image()
@@ -65,6 +66,8 @@ def handler(event, context):
 def _pick_image() -> str:
     google_images_instance = google_images_download.googleimagesdownload()
     paths = google_images_instance.download(SEARCH_PARAMS)
+
+    print(f"Output of the _pick_image: {paths}")
 
     path_list = list(paths[0].values())[0]
 
