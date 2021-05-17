@@ -16,7 +16,6 @@ class MemePickerStack(cdk.Stack):
         # Create an S3 bucket
         s3_bucket = s3.Bucket(self,
                               'MemeBucket',
-                              bucket_name='meme-picker-bucket',
                               encryption=s3.BucketEncryption.S3_MANAGED,
                               public_read_access=False,
                               versioned=True,
